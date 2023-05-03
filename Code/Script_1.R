@@ -3,12 +3,14 @@
 install.packages('tidyverse')
 install.packages('here')
 install.packages('readxl')
+install.packages('lubridate')
 
 library(tidyverse)
 library(here)
 library(readr)
 library(ggplot2)
 library(readxl) 
+library(lubridate)
 
 
 
@@ -41,8 +43,23 @@ df <- pivot_longer(clean_data,
              names_to="Cat",
              values_to="Value")
 
+##df %>% 
+##  mutate(Date=as.Date(Date))
+
+
+lubridate(date=df$Date)
+
+
+
+as_date(df$Date)
+class(df$Date)
+
+for(i in 1:500){
+  as_date(df$Date[i])
+}
 
 head(clean_data)
+
 
 ###--------------------------------------------------------Creating the Visualization----------------------------------------------
 ### What do I want from the graph 
@@ -56,15 +73,19 @@ head(clean_data)
 ##p+geom_smooth()
 
 ####creates a basic graph 
-ggplot(df, aes(x=Date, 
+p <- ggplot(df, aes(x=Date, 
                y=Value,
-               colour=Cat))+
-  geom_line()+
+               colour=Cat))
+  
+p <- p+geom_line()+
   labs(title="Fuel Prices Over the Past 20 Years",
        x="Date", y="Price Per Litre (p)",
-       color="Fuel Type")
+       color="Fuel Type")+
+  scale_color_discrete(limits=c("Petrol","Diesel"))
+ 
+p+scale_x_datetime(date_breaks="1 year")
 
-
+p
 
 #ggplot(data=clean_data, aes(x=Date))+
 #  geom_line(aes(y=Diesel), color="darkred")+
