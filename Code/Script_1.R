@@ -3,14 +3,18 @@
 install.packages('tidyverse')
 install.packages('here')
 install.packages('readxl')
-install.packages('lubridate')
+#install.packages('lubridate')
+install.packages('viridis')
+install.packages('wesanderson')
 
 library(tidyverse)
 library(here)
 library(readr)
 library(ggplot2)
 library(readxl) 
-library(lubridate)
+library(viridis)
+library(wesanderson)
+#library(lubridate)
 
 
 
@@ -43,49 +47,79 @@ df <- pivot_longer(clean_data,
              names_to="Cat",
              values_to="Value")
 
+###Not needed/didnt work
+
 ##df %>% 
 ##  mutate(Date=as.Date(Date))
 
 
-lubridate(date=df$Date)
+#lubridate(date=df$Date)
 
 
+#as_date(df$Date)
+#class(df$Date)
 
-as_date(df$Date)
-class(df$Date)
-
-for(i in 1:500){
-  as_date(df$Date[i])
-}
-
-head(clean_data)
+#for(i in 1:500){
+#  as_date(df$Date[i])
+#}
 
 
 ###--------------------------------------------------------Creating the Visualization----------------------------------------------
-### What do I want from the graph 
 ### 1) different colour lines for diesel and petrol
 ### 2) legends descibing colour code, X and Y axis, and a title 
-### 3) axis is probably going to need adjusting 
+### 3) adjusted x and y axis for orientation and distance between points 
+###  4) moved legend under graph
+###chnaging line width = geom_line(linewidth=0.75)
 
 
-##ggplot(df=clean_data, 
-##       mapping=aes(x=Date,y=Petrol))
-##p+geom_smooth()
+ggplot(df, aes(x=Date,y=Value,colour=Cat))+
+  geom_line(linewidth=0.75)+ 
+  labs(title="Fuel Prices Over the Past 20 Years",x="Date",y="Price Per Litre (p)",color="Fuel")+
+  scale_color_manual(limits=c("Petrol","Diesel"),values=wes_palette("GrandBudapest1",n=2))+
+  scale_x_datetime(date_breaks="1 year",date_labels="%Y")+
+  scale_y_continuous(breaks=c(80,100,120,140,160,180,200))+
+  theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom")
 
-####creates a basic graph 
-p <- ggplot(df, aes(x=Date, 
-               y=Value,
-               colour=Cat))
+
+
+------------------------------------Aesthetics------------------------------------------------------
+###WRECKAGE
+###  Trying to figure out colours 
   
-p <- p+geom_line()+
-  labs(title="Fuel Prices Over the Past 20 Years",
-       x="Date", y="Price Per Litre (p)",
-       color="Fuel Type")+
-  scale_color_discrete(limits=c("Petrol","Diesel"))
- 
-p+scale_x_datetime(date_breaks="1 year")
+#ggplot(df,aes(x=Date,y=Value,colour=Cat))+
+ # geom_line(linewidth=0.75)+ 
+  #labs(title="Fuel Prices Over the Past 20 Years",x="Date",y="Price Per Litre (p)",color="Fuel")+
+  #scale_color_manual(limits=c("Petrol","Diesel"),values=wes_palette("GrandBudapest1",n=2))+
+  #scale_color_discrete(limits=c("Petrol","Diesel"))+
+ # scale_x_datetime(date_breaks="1 year",date_labels="%Y")+
+#  scale_y_continuous(breaks=c(80,100,120,140,160,180,200))+
+  #theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom")
 
-p
+
+#ggplot(df,aes(Date,Value))+
+#  geom_line(aes(color=Cat))+
+#  scale_color_viridis(disrete=TRUE,option="D",limits=c("petrol","diesel"))
+        
+#plot.title=element_text(hjust=0.5)) - adjusts title to centre 
+
+
+      
+
+
+
+
+
+#df data frame, x axis is dates, y is price per litre, colour coded diesel and petrol
+#line graph and adding titles/legends
+#rearrange petrol and diesel 
+
+##possible way to change axis start and stop 
+
+min <- as.Date("2002-1-1")
+max <- NA
+p + scale_x_date(limits = c(min, max))
+
+
 
 #ggplot(data=clean_data, aes(x=Date))+
 #  geom_line(aes(y=Diesel), color="darkred")+
