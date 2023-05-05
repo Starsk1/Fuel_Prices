@@ -81,7 +81,7 @@ plot1 <- ggplot(df, aes(x=Date,y=Value,colour=Cat))+
   theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom", plot.title=element_text(size=20,hjust=0.5),legend.text=element_text(size=10),legend.key.size=unit(1,"cm"))
 
 
-ggsave("Fuel Prices 2003-2023.pdf", plot1, path= "Plots")
+ggsave("Fuel Prices 2003-2023.pdf", plot1, path=here("Plots")
  
 
 `------------------------------------Aesthetics------------------------------------------------------
