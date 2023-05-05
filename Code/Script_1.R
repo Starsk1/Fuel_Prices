@@ -4,7 +4,7 @@ install.packages('tidyverse')
 install.packages('here')
 install.packages('readxl')
 #install.packages('lubridate')
-install.packages('viridis')
+#install.packages('viridis')
 install.packages('wesanderson')
 
 library(tidyverse)
@@ -12,7 +12,7 @@ library(here)
 library(readr)
 library(ggplot2)
 library(readxl) 
-library(viridis)
+#library(viridis)
 library(wesanderson)
 #library(lubridate)
 
@@ -72,17 +72,19 @@ df <- pivot_longer(clean_data,
 ###chnaging line width = geom_line(linewidth=0.75)
 
 
-ggplot(df, aes(x=Date,y=Value,colour=Cat))+
+plot1 <- ggplot(df, aes(x=Date,y=Value,colour=Cat))+
   geom_line(linewidth=0.75)+ 
-  labs(title="Fuel Prices Over the Past 20 Years",x="Date",y="Price Per Litre (p)",color="Fuel")+
-  scale_color_manual(limits=c("Petrol","Diesel"),values=wes_palette("GrandBudapest1",n=2))+
+  labs(title="Fuel Prices Over the Past 20 Years",x="Date",y="Pence Per Litre",color=NULL)+
+  scale_color_manual(limits=c("Petrol","Diesel"),values=wes_palette("Royal1",n=2))+
   scale_x_datetime(date_breaks="1 year",date_labels="%Y")+
   scale_y_continuous(breaks=c(80,100,120,140,160,180,200))+
-  theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom")
+  theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom", plot.title=element_text(size=20,hjust=0.5),legend.text=element_text(size=10),legend.key.size=unit(1,"cm"))
 
 
+ggsave("Fuel Prices 2003-2023.pdf", plot1, path= "Plots")
+ 
 
-------------------------------------Aesthetics------------------------------------------------------
+`------------------------------------Aesthetics------------------------------------------------------
 ###WRECKAGE
 ###  Trying to figure out colours 
   
@@ -112,12 +114,6 @@ ggplot(df, aes(x=Date,y=Value,colour=Cat))+
 #df data frame, x axis is dates, y is price per litre, colour coded diesel and petrol
 #line graph and adding titles/legends
 #rearrange petrol and diesel 
-
-##possible way to change axis start and stop 
-
-min <- as.Date("2002-1-1")
-max <- NA
-p + scale_x_date(limits = c(min, max))
 
 
 
