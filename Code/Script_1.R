@@ -12,9 +12,8 @@ library(here)
 library(readr)
 library(ggplot2)
 library(readxl) 
-#library(viridis)
 library(wesanderson)
-#library(lubridate)
+
 
 
 
@@ -24,6 +23,9 @@ library(wesanderson)
 
 
 raw_data <- read_excel(here('Data','Weekly_Fuel_Prices.xlsx'),skip=7,sheet='All years')
+
+
+save(raw_data,file="Data/Raw_Data.Rdata")
 
 
 
@@ -47,6 +49,8 @@ df <- pivot_longer(clean_data,
              names_to="Cat",
              values_to="Value")
 
+save(df,file="Data/Clean_Data.Rdata")
+save(df,file="Data/Clean_Data.csv")
 ###Not needed/didnt work
 
 ##df %>% 
@@ -80,8 +84,10 @@ plot1 <- ggplot(df, aes(x=Date,y=Value,colour=Cat))+
   scale_y_continuous(breaks=c(80,100,120,140,160,180,200))+
   theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom", plot.title=element_text(size=20,hjust=0.5),legend.text=element_text(size=10),legend.key.size=unit(1,"cm"))
 
+plot1
 
-ggsave("Fuel Prices 2003-2023.pdf", plot1, path=here("Plots")
+ggsave("Fuel Prices 2003-2023.pdf", plot1, path=here("Plots"))
+ggsave("Fuel Prices 2003-2023.png", plot1, path=here("Plots"))
  
 
 `------------------------------------Aesthetics------------------------------------------------------
