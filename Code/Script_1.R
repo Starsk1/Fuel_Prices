@@ -8,6 +8,7 @@ install.packages('readxl')
 install.packages('wesanderson')
 install.packages('ggthemes')
 install.packages('gganimate')
+install.packages('gifski')
 
 library(tidyverse)
 library(here)
@@ -15,8 +16,6 @@ library(readr)
 library(ggplot2)
 library(readxl) 
 library(wesanderson)
-library(gganimate)
-library(ggthemes)
 
 
 
@@ -83,18 +82,41 @@ plot1 <- ggplot(df, aes(x=Date,y=Value,colour=Cat))+
   scale_color_manual(limits=c("Petrol","Diesel"),values=wes_palette("Royal1",n=2))+
   scale_x_datetime(date_breaks="1 year",date_labels="%Y")+
   scale_y_continuous(breaks=c(80,100,120,140,160,180,200))+
-  theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom", plot.title=element_text(size=20,hjust=0.5),legend.text=element_text(size=10),legend.key.size=unit(1,"cm"))+
-  theme_bw()
+  theme_bw()+
+  theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom", plot.title=element_text(size=20,hjust=0.5),legend.text=element_text(size=10),legend.key.size=unit(1,"cm"))
+  
+  
+#theme_bw()
 
 plot1
 
-ggsave("Fuel Prices 2003-2023.pdf", plot1, path=here("Plots"))
+ggsave("220225421.png", width=6.5, height=4.5, plot1, path=here("Plots"))
+
+ggsave("Fuel Prices 2003-2023.pdf", width=6.5, height=4.5, plot1, path=here("Plots"))
 ggsave("Fuel Prices 2003-2023.png", plot1, path=here("Plots"))
 
+#-----------------------------Animate-----------------------------------------
+##error Warning message:file_renderer failed to copy frames to the destination director
 
+#anim <- ggplot(df, aes(x=Date,y=Value,colour=Cat))+
+#  geom_line(linewidth=0.75)+ 
+#  labs(title="Fuel Prices Over the Past 20 Years",x="Date",y="Pence Per Litre",color=NULL)+
+#  scale_color_manual(limits=c("Petrol","Diesel"),values=wes_palette("Royal1",n=2))+
+#  scale_x_datetime(date_breaks="1 year",date_labels="%Y")+
+#  scale_y_continuous(breaks=c(80,100,120,140,160,180,200))+
+#  theme_bw()+
+#  theme(axis.text.x=element_text(angle=50,hjust=1),legend.position = "bottom", plot.title=element_text(size=20,hjust=0.5),legend.text=element_text(size=10),legend.key.size=unit(1,"cm"))+
+#  transition_reveal(Date)+
+#  labs(titel="Date{frame.along}")
 
+#anim_save("animation1.gif",anim)
+  
+#  plot1+transition_reveal(Date)
+#animate(anim,renderer=gifski_renderer)
 
-`------------------------------------Aesthetics------------------------------------------------------
+#anim
+
+#------------------------------------Aesthetics------------------------------------------------------
 ###WRECKAGE
 ###  Trying to figure out colours 
   
