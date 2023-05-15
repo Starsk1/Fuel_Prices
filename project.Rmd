@@ -3,8 +3,8 @@ title: "Fuel Prices From 2003 to 2023"
 author: "Anonymous"
 date: "2023-05-09"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -20,7 +20,7 @@ library(wesanderson)
 
 ```
 
-## Research Question   
+## Research Question  
 With recent unprecedented increases in the price of fuel worldwide, it prompted the question of how have fuel prices for petrol and diesel changed in the last 20 years within the UK? Fuel prices have a wide impact on many aspects of life and are a useful indicator for the state of a country's economy.   
 
 ## Data Origins    
@@ -63,7 +63,7 @@ clean_data <- raw_data %>%
 
 ```
   
-Then I converted the data frame to long format.  
+Then I converted the data frame to long format.
   
 ```{r}
 
